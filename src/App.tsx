@@ -14,8 +14,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='LoginScreen'>
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: "Home", headerShown: false}}/>
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{title: "OneRing", headerBackVisible: false}}/>
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{title: "Sign Up"}} />
+        <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{title: "OneRing", headerBackVisible: false, gestureEnabled: false,}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
