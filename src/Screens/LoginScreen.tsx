@@ -1,7 +1,18 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function LoginScreen() {
+
+export default function LoginScreen({ navigation }: any) {
+
+    const signInAction = () => {
+        navigation.push('DashboardScreen')
+    }
+    
+const signUpAction = () => {
+    navigation.push('SignUpScreen')
+}
   return (
     <View style={Styles.body}>
       <Text style={Styles.textHeader}>Wellcome to OneRing</Text>
@@ -9,10 +20,10 @@ export default function LoginScreen() {
       <TextInput style={Styles.textInput} placeholder="Enter your UserName"></TextInput>
       <TextInput style={Styles.textInput} placeholder="Enter your password" secureTextEntry={true}></TextInput>
       <View style={Styles.buttonView}>
-      <TouchableOpacity style={Styles.button}>
+      <TouchableOpacity style={Styles.button} onPress={signInAction}>
         <Text style={Styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={Styles.button}>
+      <TouchableOpacity style={Styles.button} onPress={signUpAction}>
         <Text style={Styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
       </View>
@@ -44,6 +55,7 @@ const Styles = StyleSheet.create({
         borderColor: 'black',
         height: 40,
         borderRadius: 5,
+        textAlign: 'center',
     },
     button: {
         marginTop: 20,
