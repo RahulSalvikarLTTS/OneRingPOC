@@ -1,34 +1,48 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 export default function LoginScreen({ navigation }: any) {
+    const [email, setEmail] = useState ('')
+    const [password, setPassword] = useState ('')
 
     const signInAction = () => {
-        navigation.push('DashboardScreen')
+        if (email != "" && password != "") {
+            navigation.push('DashboardScreen')
+        } else {
+        }
     }
-    
-const signUpAction = () => {
-    navigation.push('SignUpScreen')
-}
-  return (
-    <View style={Styles.body}>
-      <Text style={Styles.textHeader}>Wellcome to OneRing</Text>
-      <Text style={Styles.text}>Sign in to your account</Text>
-      <TextInput style={Styles.textInput} placeholder="Enter your UserName"></TextInput>
-      <TextInput style={Styles.textInput} placeholder="Enter your password" secureTextEntry={true}></TextInput>
-      <View style={Styles.buttonView}>
-      <TouchableOpacity style={Styles.button} onPress={signInAction}>
-        <Text style={Styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={Styles.button} onPress={signUpAction}>
-        <Text style={Styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-      </View>
-    </View>
-  )
+
+    const signUpAction = () => {
+        navigation.push('SignUpScreen')
+    }
+    return (
+        <View style={Styles.body}>
+            <Text style={Styles.textHeader}>Wellcome to OneRing</Text>
+            <Text style={Styles.text}>Sign in to your account</Text>
+            <TextInput style={Styles.textInput} placeholder="Enter your UserName" onChangeText={(txt) => {
+              setEmail(txt);
+            }}></TextInput>
+            {
+                email == "" ? <Text style={Styles.errorText}>Email Field canot be empty</Text> : null
+            }
+            
+            <TextInput style={Styles.textInput} placeholder="Enter your password" secureTextEntry={true} onChangeText={(txt) => setPassword(txt)}></TextInput>
+            {
+                password == "" ? <Text style={Styles.errorText}>Password Field canot be empty</Text> : null
+            }
+            <View style={Styles.buttonView}>
+                <TouchableOpacity style={Styles.button} onPress={signInAction}>
+                    <Text style={Styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={Styles.button} onPress={signUpAction}>
+                    <Text style={Styles.buttonText}>Sign Up</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
 }
 
 const Styles = StyleSheet.create({
@@ -71,5 +85,11 @@ const Styles = StyleSheet.create({
     buttonView: {
         //backgroundColor: 'black',
         alignItems: 'center',
-    }
+    },
+    errorText: {
+        margin: 2,
+        textAlign: 'left',
+        fontSize: 12,
+        color: 'red'
+    },
 })
