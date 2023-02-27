@@ -1,6 +1,9 @@
 import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import React, { useState } from 'react';
+// Import files 
 import Styles from './GlobalStyle'
+import TextInputValidationComponent from './TextInputValidationComponent';
+import TextFieldLabelComponent from './TextFieldLabelComponent';
 
 export default function SignUpScreen({ navigation }: any) {
   const [userName, setUserName] = useState({
@@ -65,19 +68,19 @@ const passwordValidator = () => {
   }
   return (
     <View style={Styles.signUpBody}>
-      <Text style={Styles.text}>User Name</Text>
+      <TextFieldLabelComponent txtFieldLblText={"User Name"}/>
       <TextInput style={Styles.textInput} placeholder="Enter your UserName" onBlur={userNameValidator} onChangeText={(txt) => {
         setUserName({...userName, userNameValue: txt});
       }}></TextInput>
-      <Text style={Styles.errorText}>{userName.userNameErrorValue}</Text>
-      <Text style={Styles.text}>Email ID</Text>
+      <TextInputValidationComponent getErrorText={userName.userNameErrorValue}/>
+      <TextFieldLabelComponent txtFieldLblText={"Email ID"}/>
       <TextInput style={Styles.textInput} placeholder="Enter your Email ID" onBlur={emailValidator} onChangeText={(txt) => {
         setEmail({...email, emailValue: txt});
       }}></TextInput>
-      <Text style={Styles.errorText}>{email.emailErrorValue}</Text>
-      <Text style={Styles.text}>Password</Text>
+      <TextInputValidationComponent getErrorText={email.emailErrorValue}/>
+      <TextFieldLabelComponent txtFieldLblText={"Password"}/>
       <TextInput style={Styles.textInput} placeholder="Enter your password" onBlur={passwordValidator} secureTextEntry={true} onChangeText={(txt) => setPassword({...password, passwordValue: txt})}></TextInput>
-      <Text style={Styles.errorText}>{password.passwordErrorValue}</Text>
+      <TextInputValidationComponent getErrorText={password.passwordErrorValue}/>
       <View style={Styles.buttonView}>
         <TouchableOpacity style={Styles.button} onPress={signInAction}>
           <Text style={Styles.buttonText}>Sign Up</Text>

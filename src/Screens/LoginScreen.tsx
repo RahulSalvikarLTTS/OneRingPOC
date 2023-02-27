@@ -1,15 +1,19 @@
 import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import React, { useState } from 'react';
-import Styles from './GlobalStyle'
+// Import files
+import Styles from './GlobalStyle';
+import TextInputValidationComponent from './TextInputValidationComponent';
+import TextFieldLabelComponent from './TextFieldLabelComponent';
+import TextInputComponent from './TextInputComponent';
 
 export default function LoginScreen({ navigation }: any) {
     const [email, setEmail] = useState({
-        emailValue: "rahul@gmail.com",
+        emailValue: "",
         emailErrorValue: "",
     });
 
     const [password, setPassword] = useState({
-        passwordValue: "rere",
+        passwordValue: "",
         passwordErrorValue: "",
     });
 
@@ -42,7 +46,7 @@ export default function LoginScreen({ navigation }: any) {
         passwordValidator();
         Keyboard.dismiss();
         if (email.emailValue != "" &&  passwordValidator() == true && emailValidator() == true && password.passwordValue !== "") {
-            navigation.navigate('DashboardScreen');//push('DashboardScreen')
+            navigation.push('DashboardScreen')
         }
     }
 
@@ -52,17 +56,23 @@ export default function LoginScreen({ navigation }: any) {
     return (
         <View style={Styles.body}>
             <Text style={Styles.textHeader}>Wellcome to OneRing</Text>
-            <Text style={Styles.text}>Sign in to your account</Text>
-            <TextInput style={Styles.textInput} placeholder="Enter your UserName" onBlur={emailValidator} onChangeText={(txt) => {
-                emailValidator();
-                setEmail({...email, emailValue: txt});
-            }}></TextInput>
-            <Text style={Styles.errorText}>{email.emailErrorValue}</Text>
-            <TextInput style={Styles.textInput} placeholder="Enter your password" onBlur={passwordValidator} secureTextEntry={true} onChangeText={(txt) => {
-                passwordValidator();
-                setPassword({...password, passwordValue:(txt)})
-            }}></TextInput>
-            <Text style={Styles.errorText}>{password.passwordErrorValue}</Text>
+            {/* <Text style={Styles.text}>Sign in to your account</Text> */}
+            <TextFieldLabelComponent txtFieldLblText={"Email"}/>
+            <TextInputComponent secureTextEntryObj={false} placeholderObj = {"Enter your Email"} onBlurObj={emailValidator} onChangeTextObj={
+                (txt: any) => {
+                    emailValidator();
+                    setEmail({...email, emailValue: txt});
+                }
+            }/>
+            <TextInputValidationComponent getErrorText={email.emailErrorValue}/>
+            <TextFieldLabelComponent txtFieldLblText={"Password"}/>
+            <TextInputComponent secureTextEntryObj={true} placeholderObj = {"Enter your password"} onBlurObj={passwordValidator} onChangeTextObj={
+                (txt: any) => {
+                    passwordValidator();
+                    setPassword({...password, passwordValue:(txt)})
+                }
+            }/>
+            <TextInputValidationComponent getErrorText={password.passwordErrorValue}/>
             <View style={Styles.buttonView}>
                 <TouchableOpacity style={Styles.button} onPress={signInAction}>
                     <Text style={Styles.buttonText}>Login</Text>

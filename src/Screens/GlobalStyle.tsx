@@ -17,6 +17,7 @@ export default StyleSheet.create({
     text: {
         textAlign: 'left',
         fontSize: 18,
+        marginBottom: 5,
     },
     textInput: {
         marginTop: 10,
@@ -50,5 +51,5 @@ export default StyleSheet.create({
     },
     signUpBody: {
         padding: 20,
-    }
-})
+    },
+});
