@@ -4,12 +4,12 @@ import Styles from './GlobalStyle'
 
 export default function LoginScreen({ navigation }: any) {
     const [email, setEmail] = useState({
-        emailValue: "",
+        emailValue: "rahul@gmail.com",
         emailErrorValue: "",
     });
 
     const [password, setPassword] = useState({
-        passwordValue: "",
+        passwordValue: "rere",
         passwordErrorValue: "",
     });
 
@@ -42,7 +42,7 @@ export default function LoginScreen({ navigation }: any) {
         passwordValidator();
         Keyboard.dismiss();
         if (email.emailValue != "" &&  passwordValidator() == true && emailValidator() == true && password.passwordValue !== "") {
-            navigation.push('DashboardScreen')
+            navigation.navigate('DashboardScreen');//push('DashboardScreen')
         }
     }
 
