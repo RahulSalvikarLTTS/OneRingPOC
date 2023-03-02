@@ -17,7 +17,7 @@ import {name as appName} from './app.json';
 // import App from './src/ImageFileUploader/ENAPPD/App';
 // import AppFuncComponent from './src/ImageFileUploader/ENAPPD/AppFuncComponent';
 
-//import App from './src/ImageCamera/App';
-import fileUpload from './src/ImageCamera/FileUpload';
+import App from './src/ImageCamera/App';
+// import fileUpload from './src/ImageCamera/FileUpload';
 
-AppRegistry.registerComponent(appName, () => fileUpload);
+AppRegistry.registerComponent(appName, () => App);
