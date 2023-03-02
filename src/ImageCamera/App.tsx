@@ -57,7 +57,23 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <DemoTitle>File and Image Picker</DemoTitle>
+      {/* <DemoResponse>{response}</DemoResponse> */}
+
       <ScrollView>
+      {response?.assets &&
+          response?.assets.map(({ uri }: { uri: string }) => (
+            <View key={uri} style={styles.imageContainer}>
+              <Text>{uri}</Text>
+
+              <Image
+                resizeMode="cover"
+                resizeMethod="scale"
+                style={styles.image}
+                source={{ uri: uri }}
+              />
+            </View>
+          ))}
+
         <View style={styles.buttonContainer}>
           {actions.map(({ title, type, options }) => {
             return (
@@ -85,21 +101,7 @@ export default function App() {
           /> */}
 
         </View>
-        <DemoResponse>{response}</DemoResponse>
 
-        {response?.assets &&
-          response?.assets.map(({ uri }: { uri: string }) => (
-            <View key={uri} style={styles.imageContainer}>
-              <Text>{uri}</Text>
-
-              <Image
-                resizeMode="cover"
-                resizeMethod="scale"
-                style={styles.image}
-                source={{ uri: uri }}
-              />
-            </View>
-          ))}
       </ScrollView>
     </SafeAreaView>
   );
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
 
 interface Action {
   title: string;
-  type: 'capture' | 'library' | 'FileManager';
+  type: 'capture' | 'library' | 'FileManager' | 'Upload';
   options: ImagePicker.CameraOptions | ImagePicker.ImageLibraryOptions ;
 }
 
@@ -153,8 +155,18 @@ const actions: Action[] = [
     },
   },
   {
-    title: 'FileManager',
+    title: 'File Manager',
     type: 'FileManager',
+    options: {
+      selectionLimit: 0,
+      mediaType: 'photo',
+      includeBase64: false,
+      includeExtra,
+    },
+  },
+  {
+    title: 'Upload',
+    type: 'Upload',
     options: {
       selectionLimit: 0,
       mediaType: 'photo',
