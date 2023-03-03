@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Fragment, useEffect, useState } from 'react'
-import { StyleSheet, SafeAreaView, View, Image, ScrollView, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, ScrollView, Text, Alert } from 'react-native';
 import { DemoTitle, DemoButton, DemoResponse } from './components';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from 'react-native-image-picker';
@@ -51,14 +51,16 @@ export default function App() {
   }
 
   const onButtonPress = React.useCallback((type, options) => {
-    setDefult()
     if (type === 'capture') {
+      setDefult()
       cameraAction(options);
       //ImagePicker.launchCamera(options, setResponse);
     } else if (type === 'library') {
+      setDefult()
       galleryAction(options);
       //ImagePicker.launchImageLibrary(options, setResponse);
     } else if (type === 'FileManager') {
+      setDefult()
       fileManagerAction(options)
     } else {
       uploadAction()
@@ -114,6 +116,7 @@ export default function App() {
             fileUrl = value
             console.log("value", value)
             imageUpload(value)
+            Alert.alert('Success', 'File Uploaded Successfully');
           }
         })
 
@@ -123,7 +126,7 @@ export default function App() {
   }
   const imageUpload = (fileUri: String) => {
     console.log("fileUri ", fileUri);
-    AsyncStorage.removeItem('fileUri')
+    //AsyncStorage.removeItem('fileUri')
 
     const imageData = new FormData()
     imageData.append("file", {
