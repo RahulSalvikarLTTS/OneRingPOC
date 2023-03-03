@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react'
-import { StyleSheet, SafeAreaView, View, Image, ScrollView, Text, Button } from 'react-native';
+import { Fragment, useEffect, useState } from 'react'
+import { StyleSheet, SafeAreaView, View, Image, ScrollView, Text } from 'react-native';
 import { DemoTitle, DemoButton, DemoResponse } from './components';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from 'react-native-image-picker';
@@ -16,12 +16,20 @@ import axios from 'axios';
 const includeExtra = true;
 
 export default function App() {
+  const [isHideDummyImage, setDummyImageStatus] = useState(false)
+  const [FileManagerPath, setFileManagerPath] = useState('')
   const [response, setResponse] = useState<any>(null);
-  //------ File Upload
   const [result, setResult] = useState<Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null>()
 
+  //------ File Upload
+
   useEffect(() => {
-    console.log(JSON.stringify(result, null, 2))
+    //console.log("file manager response -> ",JSON.stringify(result, null, 2));
+    //console.log("Image response -> ",JSON.stringify(response, null, 2));
+    let data = JSON.stringify(result, null, 2);
+    // if ( != undefined) {
+    // setFileManagerPath(result[0].fileCopyUri)
+    // }
   }, [result, response])
 
   const handleError = (err: unknown) => {
@@ -35,9 +43,15 @@ export default function App() {
     }
   }
   //------
-
+  const setDefult = () => {
+    setDummyImageStatus(false)
+    setResponse(null)
+    setResult(null)
+    setFileManagerPath('')
+  }
 
   const onButtonPress = React.useCallback((type, options) => {
+    setDefult()
     if (type === 'capture') {
       cameraAction(options);
       //ImagePicker.launchCamera(options, setResponse);
@@ -45,25 +59,35 @@ export default function App() {
       galleryAction(options);
       //ImagePicker.launchImageLibrary(options, setResponse);
     } else if (type === 'FileManager') {
-      try {
-        const pickerResult = DocumentPicker.pickSingle({
-          presentationStyle: 'fullScreen',
-          copyTo: 'cachesDirectory',
-        })
-        setResult([pickerResult])
-      } catch (e) {
-        handleError(e)
-      }
+      fileManagerAction(options)
     } else {
       uploadAction()
     }
   }, []);
+
+
+  const fileManagerAction = async (options: any) => {
+    try {
+      const pickerResult = await DocumentPicker.pickSingle({
+        presentationStyle: 'fullScreen',
+        copyTo: 'cachesDirectory',
+      })
+      //console.log("pickerResult ->" ,pickerResult.fileCopyUri);
+      await AsyncStorage.setItem('fileUri', String(pickerResult.fileCopyUri));
+      setFileManagerPath(String(pickerResult.fileCopyUri))
+      setResult([pickerResult]);
+    } catch (e) {
+      handleError(e)
+    }
+
+  }
 
   const galleryAction = async (options: any) => {
     try {
       const result = await ImagePicker.launchImageLibrary(options);
       await AsyncStorage.setItem('fileUri', String(result?.assets[0].uri));
       setResponse(result);
+      setDummyImageStatus(true)
     } catch (e) {
       handleError(e)
     }
@@ -75,6 +99,7 @@ export default function App() {
       const result = await ImagePicker.launchCamera(options);
       await AsyncStorage.setItem('fileUri', String(result?.assets[0].uri));
       setResponse(result);
+      setDummyImageStatus(true)
     } catch (e) {
       handleError(e)
     }
@@ -118,49 +143,69 @@ export default function App() {
     //   console.log(error)
     // })
   }
-  
+
+  const renderFileUri = () => {
+    if (isHideDummyImage == false) {
+      return <View style={styles.imageContainer}>
+        <Image
+          source={require('./assets/dummy.png')}
+          style={styles.image}
+        />
+        <Text style={styles.text}>File path: {FileManagerPath}</Text>
+
+      </View>
+
+    }
+  }
+
+
   return (
-    <SafeAreaView style={styles.container}>
-      <DemoTitle>Honeywell</DemoTitle>
-      {/* <DemoResponse>{response}</DemoResponse> */}
+    <Fragment>
+      <SafeAreaView style={styles.container}>
+        <DemoTitle>Honeywell</DemoTitle>
+        {/* <DemoResponse>{response}</DemoResponse> */}
 
-      <ScrollView>
-        {response?.assets &&
-          response?.assets.map(({ uri }: { uri: string }) => (
-            <View key={uri} style={styles.imageContainer}>
-              <Image
-                resizeMode="cover"
-                resizeMethod="scale"
-                style={styles.image}
-                source={{ uri: uri }}
-              />
+        <ScrollView>
 
-              <Text style={styles.text}>File Url: {uri}</Text>
+          {response?.assets &&
+            response?.assets.map(({ uri }: { uri: string }) => (
+              <View key={uri} style={styles.imageContainer}>
+                <Image
+                  resizeMode="cover"
+                  resizeMethod="scale"
+                  style={styles.image}
+                  source={{ uri: uri }}
+                />
 
-            </View>
-          ))}
+                <Text style={styles.text}>File path: {uri}</Text>
 
-        <View style={styles.buttonContainer}>
-          {actions.map(({ title, type, options }) => {
-            return (
-              <DemoButton
-                key={title}
-                onPress={() => onButtonPress(type, options)}>
-                {title}
-              </DemoButton>
-            );
-          })}
-        </View>
+              </View>
+            ))}
 
-      </ScrollView>
-    </SafeAreaView>
+          {renderFileUri()}
+
+          <View style={styles.buttonContainer}>
+            {actions.map(({ title, type, options }) => {
+              return (
+                <DemoButton
+                  key={title}
+                  onPress={() => onButtonPress(type, options)}>
+                  {title}
+                </DemoButton>
+              );
+            })}
+          </View>
+
+        </ScrollView>
+      </SafeAreaView>
+    </Fragment>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'aliceblue',
+    backgroundColor: 'alicered',
   },
   buttonContainer: {
     flexDirection: 'column',
@@ -175,6 +220,7 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+    alignItems: 'center',
   },
   text: {
     alignItems: 'center',
