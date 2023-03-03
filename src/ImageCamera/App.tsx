@@ -116,7 +116,6 @@ export default function App() {
             fileUrl = value
             console.log("value", value)
             imageUpload(value)
-            Alert.alert('Success', 'File Uploaded Successfully');
           }
         })
 
@@ -124,18 +123,20 @@ export default function App() {
       console.log("Get Data error ->", error);
     }
   }
+  /*
   const imageUpload = (fileUri: String) => {
     console.log("fileUri ", fileUri);
+    handleSubmit(fileUri);
     //AsyncStorage.removeItem('fileUri')
 
-    const imageData = new FormData()
-    imageData.append("file", {
-      uri: fileUri,
-      name: 'Img1.png',
-      fileName: 'image',
-      type: 'image/png'
-    })
-    console.log('form data', imageData)
+    // const imageData = new FormData()
+    // imageData.append("file", {
+    //   uri: fileUri,
+    //   name: 'Img1.png',
+    //   fileName: 'image',
+    //   type: 'image/png'
+    // })
+    // console.log('form data', imageData)
     // axios({
     //   method: 'post',
     //   uri: '',
@@ -145,6 +146,36 @@ export default function App() {
     // }).then((error) {
     //   console.log(error)
     // })
+  }*/
+
+  const imageUpload = async(fileUri: String) => {
+    const formData = new FormData();
+    var filename = fileUri.substring(fileUri.lastIndexOf('/')+1);
+    
+    formData.append("file", {
+      uri: fileUri,
+      name: filename,
+      fileName: filename,
+      type: 'image/png'
+    })
+    formData.append("file", fileUri);
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://api.upload.io/v2/accounts/kW15b68/uploads/form_data",
+        data: formData,
+        headers: { "Authorization": "Bearer public_kW15b682j4mHVWyJR9tLvL34kwQh"},
+      }).then(function(response){
+        console.log("image upload success", response.data)
+        Alert.alert('Success', 'File Uploaded Successfully');
+      }).then((error) => {
+        console.log(error)
+        Alert.alert('Failed', 'File Failed to Uploaded');
+      })
+    } catch(error) {
+      console.log(error)
+      Alert.alert('Alert', 'No Internet Connection');
+    } 
   }
 
   const renderFileUri = () => {
