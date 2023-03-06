@@ -4,7 +4,7 @@ import { StyleSheet, SafeAreaView, View, Image, ScrollView, Text, Alert } from '
 import { DemoTitle, DemoButton, DemoResponse } from './components';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from 'react-native-image-picker';
-//import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import DocumentPicker, {
   DirectoryPickerResponse,
@@ -17,10 +17,15 @@ import axios from 'axios';
 const includeExtra = true;
 
 export default function App() {
-  //const [loading, setLoading] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
+  const startLoading = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
+
   const [isHideDummyImage, setDummyImageStatus] = useState(false)
-  const [FileManagerPath, setFileManagerPath] = useState('dummy.png')
+  const [FileManagerPath, setFileManagerPath] = useState('')
   const [response, setResponse] = useState<any>(null);
   const [result, setResult] = useState<Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null>()
 
@@ -152,7 +157,7 @@ export default function App() {
   }*/
 
   const imageUpload = async(fileUri: String) => {
-    //setLoading(true);
+    setLoading(true);
     const formData = new FormData();
     var filename = fileUri.substring(fileUri.lastIndexOf('/')+1);
     
@@ -168,19 +173,19 @@ export default function App() {
         method: "post",
         url: "https://api.upload.io/v2/accounts/kW15b68/uploads/form_data",
         data: formData,
-        headers: { "Authorization": "Bearer public_kW15b682j4mHVWyJR9tLvL34kwQh", "Content-Type": "application/x-www-form-urlencoded"},
+        headers: { "Authorization": "Bearer public_kW15b682j4mHVWyJR9tLvL34kwQh"},
       }).then(function(response){
         console.log("image upload success", response.data)
-        //setLoading(false);
+        setLoading(false);
         Alert.alert('Success', 'File Uploaded Successfully');
-      })/*.then((error) => {
+      }).then((error) => {
         console.log(error)
         setLoading(false);
         Alert.alert('Failed', 'File Failed to Uploaded');
-      })*/
+      })
     } catch(error) {
       console.log(error)
-      // setLoading(false);
+      setLoading(false);
       Alert.alert('Alert', 'No Internet Connection');
     } 
   }
@@ -192,7 +197,7 @@ export default function App() {
           source={require('./assets/dummy.png')}
           style={styles.image}
         />
-        <Text style={styles.text}>{FileManagerPath.substring(FileManagerPath.lastIndexOf('/')+1)}</Text>
+        <Text style={styles.text}>File path: {FileManagerPath}</Text>
 
       </View>
 
@@ -203,14 +208,14 @@ export default function App() {
   return (
     <Fragment>
       <SafeAreaView style={styles.container}>
-      {/* <Spinner
+      <Spinner
           //visibility of Overlay Loading Spinner
           visible={loading}
           //Text with the Spinner
           textContent={'Loading...'}
           //Text style of the Spinner Text
           textStyle={styles.spinnerTextStyle}
-        /> */}
+        />
 
         <DemoTitle>Honeywell</DemoTitle>
         {/* <DemoResponse>{response}</DemoResponse> */}
@@ -226,7 +231,9 @@ export default function App() {
                   style={styles.image}
                   source={{ uri: uri }}
                 />
-                <Text style={styles.text}>{uri.substring(uri.lastIndexOf('/')+1)}</Text>
+
+                <Text style={styles.text}>File path: {uri}</Text>
+
               </View>
             ))}
 
@@ -258,11 +265,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'column',
     //flexWrap: 'wrap',
-    //marginVertical: 8,
+    marginVertical: 8,
     alignItems: 'center'
   },
   imageContainer: {
-    marginVertical: 45,
+    marginVertical: 24,
     alignItems: 'center',
   },
   image: {
@@ -273,8 +280,6 @@ const styles = StyleSheet.create({
   text: {
     alignItems: 'center',
     padding: 20,
-    fontSize: 18,
-    fontWeight:'bold',
   },
   spinnerTextStyle: {
     color: '#FFF',

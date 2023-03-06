@@ -14,7 +14,7 @@ export function DemoButton({
       onPress={onPress}
       style={({pressed}) => [
         {
-          backgroundColor: pressed ? '#F26358' : '#EE3124',
+          backgroundColor: pressed ? '##D3D3D3' : '#5A5A5A',
         },
         styles.container,
       ]}>
@@ -33,15 +33,16 @@ const styles = StyleSheet.create<Styles>({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 45,
-    minWidth: '45%',
+    height: 50,
+    minWidth: '80%',
     maxWidth: '100%',
     marginHorizontal: 8,
-    marginVertical: 4,
+    marginVertical: 10,
     borderRadius: 8,
   },
   text: {
     textAlign: 'center',
     color: 'white',
+    fontSize: 18,
   },
 });

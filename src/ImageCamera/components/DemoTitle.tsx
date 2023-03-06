@@ -24,10 +24,11 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#EE3124',
+    backgroundColor: '#5A5A5A',
   },
   text: {
-    fontSize: 24,
+    fontSize: 28,
     color: 'white',
+    fontWeight: 'bold',
   },
 });
