@@ -13,12 +13,13 @@ import DocumentPicker, {
   types,
 } from 'react-native-document-picker'
 import axios from 'axios';
+import styles from './Styles';
 /* toggle includeExtra */
 const includeExtra = true;
 
 export default function App() {
   //const [loading, setLoading] = useState(false);
-  
+
   const [isHideDummyImage, setDummyImageStatus] = useState(false)
   const [FileManagerPath, setFileManagerPath] = useState('dummy.png')
   const [response, setResponse] = useState<any>(null);
@@ -126,36 +127,12 @@ export default function App() {
       console.log("Get Data error ->", error);
     }
   }
-  /*
-  const imageUpload = (fileUri: String) => {
-    console.log("fileUri ", fileUri);
-    handleSubmit(fileUri);
-    //AsyncStorage.removeItem('fileUri')
 
-    // const imageData = new FormData()
-    // imageData.append("file", {
-    //   uri: fileUri,
-    //   name: 'Img1.png',
-    //   fileName: 'image',
-    //   type: 'image/png'
-    // })
-    // console.log('form data', imageData)
-    // axios({
-    //   method: 'post',
-    //   uri: '',
-    //   data: imageData
-    // }).then(function (response){
-    //   console.log("image upload success", response.data)
-    // }).then((error) {
-    //   console.log(error)
-    // })
-  }*/
-
-  const imageUpload = async(fileUri: String) => {
+  const imageUpload = async (fileUri: String) => {
     //setLoading(true);
     const formData = new FormData();
-    var filename = fileUri.substring(fileUri.lastIndexOf('/')+1);
-    
+    var filename = fileUri.substring(fileUri.lastIndexOf('/') + 1);
+
     formData.append("file", {
       uri: fileUri,
       name: filename,
@@ -168,8 +145,8 @@ export default function App() {
         method: "post",
         url: "https://api.upload.io/v2/accounts/kW15b68/uploads/form_data",
         data: formData,
-        headers: { "Authorization": "Bearer public_kW15b682j4mHVWyJR9tLvL34kwQh", "Content-Type": "application/x-www-form-urlencoded"},
-      }).then(function(response){
+        headers: { "Authorization": "Bearer public_kW15b682j4mHVWyJR9tLvL34kwQh", "Content-Type": "application/x-www-form-urlencoded" },
+      }).then(function (response) {
         console.log("image upload success", response.data)
         //setLoading(false);
         Alert.alert('Success', 'File Uploaded Successfully');
@@ -178,11 +155,11 @@ export default function App() {
         setLoading(false);
         Alert.alert('Failed', 'File Failed to Uploaded');
       })*/
-    } catch(error) {
+    } catch (error) {
       console.log(error)
       // setLoading(false);
       Alert.alert('Alert', 'No Internet Connection');
-    } 
+    }
   }
 
   const renderFileUri = () => {
@@ -192,7 +169,7 @@ export default function App() {
           source={require('./assets/dummy.png')}
           style={styles.image}
         />
-        <Text style={styles.text}>{FileManagerPath.substring(FileManagerPath.lastIndexOf('/')+1)}</Text>
+        <Text style={styles.text}>{FileManagerPath.substring(FileManagerPath.lastIndexOf('/') + 1)}</Text>
 
       </View>
 
@@ -203,7 +180,7 @@ export default function App() {
   return (
     <Fragment>
       <SafeAreaView style={styles.container}>
-      {/* <Spinner
+        {/* <Spinner
           //visibility of Overlay Loading Spinner
           visible={loading}
           //Text with the Spinner
@@ -226,7 +203,7 @@ export default function App() {
                   style={styles.image}
                   source={{ uri: uri }}
                 />
-                <Text style={styles.text}>{uri.substring(uri.lastIndexOf('/')+1)}</Text>
+                <Text style={styles.text}>{uri.substring(uri.lastIndexOf('/') + 1)}</Text>
               </View>
             ))}
 
@@ -243,43 +220,11 @@ export default function App() {
               );
             })}
           </View>
-
         </ScrollView>
       </SafeAreaView>
     </Fragment>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'alicered',
-  },
-  buttonContainer: {
-    flexDirection: 'column',
-    //flexWrap: 'wrap',
-    //marginVertical: 8,
-    alignItems: 'center'
-  },
-  imageContainer: {
-    marginVertical: 45,
-    alignItems: 'center',
-  },
-  image: {
-    width: 200,
-    height: 200,
-    alignItems: 'center',
-  },
-  text: {
-    alignItems: 'center',
-    padding: 20,
-    fontSize: 18,
-    fontWeight:'bold',
-  },
-  spinnerTextStyle: {
-    color: '#FFF',
-  },
-});
 
 interface Action {
   title: string;
