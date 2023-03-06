@@ -3,17 +3,27 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'alicered',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 50,
     },
-    buttonContainer: {
+    imageTextContainer: {
+      flex: 1,
       flexDirection: 'column',
       //flexWrap: 'wrap',
       //marginVertical: 8,
-      alignItems: 'center'
+      alignItems: 'center',
+    },
+    buttonContainer: {
+      flex: 1,
+      flexDirection: 'column',
+      //flexWrap: 'wrap',
+      //marginVertical: 8,
+      // alignItems: 'center'
     },
     imageContainer: {
-      marginVertical: 45,
       alignItems: 'center',
+      padding: 50,
     },
     image: {
       width: 200,
