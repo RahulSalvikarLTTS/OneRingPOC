@@ -4,7 +4,7 @@ import { StyleSheet, SafeAreaView, View, Image, ScrollView, Text, Alert } from '
 import { DemoTitle, DemoButton, DemoResponse } from './components';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from 'react-native-image-picker';
-//import Spinner from 'react-native-loading-spinner-overlay';
+// import Spinner from 'react-native-loading-spinner-overlay';
 
 import DocumentPicker, {
   DirectoryPickerResponse,

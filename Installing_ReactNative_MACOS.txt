@@ -1,0 +1,103 @@
+Steps to install React native in MAC OS
+
+First step: Follow React native document Setting up the development URL
+
+https://reactnative.dev/docs/environment-setup
+
+https://www.knowledgehut.com/blog/web-development/install-react-native-mac
+
+———————— For XCODE Setup ————————
+sudo xcode-select --switch /Applications/Xcode.app
+sudo npm install -g ios-deploy
+sudo xcodebuild -license accept  
+
+———————— If below error Comes ————————
+"Fix Your Ruby version is 2.6.8, but your gemfile specified 2.7.6"
+
+If you get this error then follow below steps 
+
+So i have the followed the below steps
+
+1	brew install ruby@2.7
+2	\curl -sSL https://get.rvm.io | bash -s stable
+3	rvm install "ruby-2.7.6"
+4	Open your directory where you are planning to create React-Native project and run
+/bin/bash --login (No need this step or skip it)
+	5	rvm use 2.7.6
+Then you will see magic ....Your project will create with no error
+Or You can do another thing
+
+1	npx react-native init ProjectName --skip-install
+2	cd ProjectName
+3	yarn install
+4	cd ios
+5	bundle install
+6	bundle exec pod install
+7	cd ..
+8	npx react-native run-ios
+
+If you get pod error try to update pod or reinstall it 
+
+pod install --repo-update
+
+———————— Update below files  ————————
+1) .zshrc
+2) .bashrc
+3) .bash_profile
+
+Add below lines in above three files, 
+
+1) 
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+2) 
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"'
+echo 'eval "$(rbenv init -)"'
+
+3) 
+export PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH
+
+4) For android
+export ANDROID_HOME=/Users/ltts_imac_conti/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator:$PATH
+export PATH=$PATH:$ANDROID_HOME/platform-tools:$PATH
+export PATH=$PATH:$ANDROID_HOME/tools:$PATH
+export PATH=$PATH:$ANDROID_HOME/tools/bin:$PATH
+
+———————— For executing these three files below command ————————
+ source ~/.bashrc  
+ source ~/. zshrc  
+ source ~/. bash_profile  
+——————————— 
+
+———————— System Information ————————
+npx react-native info      
+
+———————— React Native Debug Information ————————
+
+https://github.com/jhen0409/react-native-debugger
+
+If issue came then pls check below URL
+
+https://stackoverflow.com/questions/73665568/how-do-i-enable-debug-js-remotely-in-react-native
+
+--------------------
+Android 
+
+./gradlew clean  
+
+
+Adding assets 
+
+npx react-native-asset  
+
+npx react-native link
+
+yarn start --reset-cache
+
+yarn install
+
+
