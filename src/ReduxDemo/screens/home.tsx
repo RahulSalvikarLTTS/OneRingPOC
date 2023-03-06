@@ -1,21 +1,12 @@
 import React, { Component, useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../redux/action";
-import store from "../redux/store";
 
-const Home = ({subscribe, getState, dispatch}) => {
-    const [number, setNumber] = useState(0);
 
-    useEffect(() => {
-        const unsubscribe = subscribe(() => {
-            let value = getState().num
-            setNumber(value)
-        })
-
-        return () => {
-            unsubscribe()
-        }
-    })
+const Home = () => {
+    const number = useSelector((state : any) => state.num)
+    const dispatch = useDispatch();
 
     const onIncrementAction = () => {
         dispatch(increment(number))

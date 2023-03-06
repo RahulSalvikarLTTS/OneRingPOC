@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Provider } from "react-redux";
 import store from "./redux/store";
 import Home from "./screens/home";
 
-
 const App = () => {
-  return(
-    <View style= {styles.container}>
-      <Home {...store}/>
-    </View>
+  return (
+    <Provider store={store}>
+      <Home />
+    </Provider>
   )
 }
 
