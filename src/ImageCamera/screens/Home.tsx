@@ -1,5 +1,5 @@
-import { View, Text, Image } from 'react-native'
-import React, { Children } from 'react'
+import { View, Text, Image, Button } from 'react-native'
+import React, { Children, useEffect, useState } from 'react'
 import Styles from './Styles'
 import DummyImageView from './atom/DummyImageView'
 import FileNameText from './atom/FileNameText'
@@ -7,17 +7,14 @@ import { DemoButton } from '../components'
 import * as ImagePicker from 'react-native-image-picker';
 import { useSelector, useDispatch } from "react-redux";
 import { gallery, camera, fileManager } from "../redux/action";
-import DocumentPicker, {
-    DirectoryPickerResponse,
-    DocumentPickerResponse,
-    isInProgress,
-    types,
-  } from 'react-native-document-picker'
-  
+import * as DocumentPicker from 'react-native-document-picker'
+
 /* toggle includeExtra */
 const includeExtra = true;
 
 export default function Home() {
+    const filePath = useSelector((state: any) => state.filePath)
+    const dispatch = useDispatch();
     const onButtonPress = React.useCallback((type: any, options: any) => {
         if (type === 'capture') {
             cameraAction(options);
@@ -26,52 +23,49 @@ export default function Home() {
         } else if (type === 'FileManager') {
             fileManagerAction(options)
         } else {
-            //uploadAction()
+            console.log('newPath ->', filePath)
         }
-    }, []);
-
-    const filePath = useSelector((state : any) => state.filePath)
-    const dispatch = useDispatch();
+    }, [filePath]);
 
     const cameraAction = async (options: any) => {
         try {
-          const result = await ImagePicker.launchCamera(options);
-          dispatch(camera(result))
+            const result = await ImagePicker.launchCamera(options);
+            dispatch(camera(result))
         } catch (error) {
             console.log(error)
         }
-      }
-    
+    }
+
     const galleryAction = async (options: any) => {
         try {
-          const result = await ImagePicker.launchImageLibrary(options);
-          dispatch(gallery(result))
-        } catch (error) {
-          console.log(error)
-        }
-      }
-
-      const fileManagerAction = async (options: any) => {
-        try {
-          const pickerResult = await DocumentPicker.pickSingle({
-            presentationStyle: 'fullScreen',
-            copyTo: 'cachesDirectory',
-          })
-          dispatch(fileManager(pickerResult))
+            const result = await ImagePicker.launchImageLibrary(options);
+            dispatch(gallery(result))
         } catch (error) {
             console.log(error)
         }
-    
-      }
-    
-    
+    }
+
+    const fileManagerAction = async (options: any) => {
+        try {
+            const pickerResult = await DocumentPicker.pickSingle({
+                presentationStyle: 'fullScreen',
+                copyTo: 'cachesDirectory',
+            })
+            dispatch(fileManager(pickerResult))
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+
     return (
         <View style={Styles.container}>
             <View style={Styles.imageTextContainer}>
                 {/* <Image 
                 source={require('../assets/dummy.png')}
                 /> */}
-                <DummyImageView props={filePath}/>
+                <DummyImageView props={filePath} />
                 <FileNameText>{filePath}</FileNameText>
             </View>
             <View style={Styles.buttonContainer}>
@@ -92,7 +86,7 @@ export default function Home() {
 interface Action {
     title: string;
     type: 'capture' | 'library' | 'FileManager' | 'Upload';
-    options: ImagePicker.CameraOptions | ImagePicker.ImageLibraryOptions;
+    options: ImagePicker.CameraOptions | ImagePicker.ImageLibraryOptions | DocumentPicker.DocumentPickerResponse | null;
 }
 
 const actions: Action[] = [
@@ -129,11 +123,6 @@ const actions: Action[] = [
     {
         title: 'Upload',
         type: 'Upload',
-        options: {
-            selectionLimit: 0,
-            mediaType: 'photo',
-            includeBase64: false,
-            includeExtra,
-        },
+        options: null,
     },
 ];

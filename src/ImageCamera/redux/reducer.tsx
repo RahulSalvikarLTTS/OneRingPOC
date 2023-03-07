@@ -14,7 +14,7 @@ export function filePathReducer(state = init_state, action: any) {
         
         case types.GALLERY: {
             let data = action.payload
-            console.log('data', data)
+            //console.log('data', data)
             let filePathObj = String(data?.assets[0].uri)
             return {...state, filePath: filePathObj}
         }
