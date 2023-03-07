@@ -1,5 +1,5 @@
 import { View, Text, Image, Button } from 'react-native'
-import React, { Children, useEffect, useState } from 'react'
+import React, { Children, Fragment, useEffect, useState } from 'react'
 import Styles from './Styles'
 import DummyImageView from './atom/DummyImageView'
 import FileNameText from './atom/FileNameText'
@@ -8,7 +8,6 @@ import * as ImagePicker from 'react-native-image-picker';
 import { useSelector, useDispatch } from "react-redux";
 import { gallery, camera, fileManager } from "../redux/action";
 import * as DocumentPicker from 'react-native-document-picker'
-
 /* toggle includeExtra */
 const includeExtra = true;
 
@@ -58,14 +57,21 @@ export default function Home() {
 
     }
 
-
+    const renderFileUri = () => {
+          return <View style={Styles.imageContainer}>
+            <Image
+            source={filePath == '' ? require('../assets/dummy.png') : { uri: filePath }}
+            style={Styles.image}
+          />
+          </View>
+    
+      }
+    
     return (
         <View style={Styles.container}>
             <View style={Styles.imageTextContainer}>
-                {/* <Image 
-                source={require('../assets/dummy.png')}
-                /> */}
-                <DummyImageView props={filePath} />
+            {/* {renderFileUri()} */}
+                <DummyImageView imageUrl={filePath} /> 
                 <FileNameText>{filePath}</FileNameText>
             </View>
             <View style={Styles.buttonContainer}>

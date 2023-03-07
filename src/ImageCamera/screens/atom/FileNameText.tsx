@@ -6,6 +6,6 @@ interface Props {
   
 export default function FileNameText({children}: Props) {
     return (
-        <Text>{children}</Text>
+        <Text>{children.substring(children.lastIndexOf('/') + 1)}</Text>
     )
 }
