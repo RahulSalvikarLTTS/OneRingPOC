@@ -107,3 +107,13 @@ sonar-scanner \
   -Dsonar.sources=./src \
   -Dsonar.host.url=http://localhost:9000 \
   -Dsonar.login=sqp_7500b77ab518de7c8a5726faff3d6d183d243ff1
+
+  ------------Links---------------
+  ESlint 
+
+1) https://medium.com/@killerchip0/react-native-typescript-with-eslint-and-prettier-e98d50585627
+2) https://dev-yakuza.posstree.com/en/react-native/eslint-prettier-husky-lint-staged/
+3) https://gist.github.com/Henriquetf/fdee0bc7ed5af922e27985c2a0da69f4
+
+react-native-testing-library-main
+https://github.com/callstack/react-native-testing-library
