@@ -101,3 +101,9 @@ yarn start --reset-cache
 yarn install
 
 
+//---------------SonarQube--------------
+sonar-scanner \
+  -Dsonar.projectKey=OneRingPOC \
+  -Dsonar.sources=./src \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_7500b77ab518de7c8a5726faff3d6d183d243ff1

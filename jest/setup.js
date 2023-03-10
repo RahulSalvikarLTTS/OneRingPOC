@@ -1,1 +1,1 @@
-jest.mock('@react-navigation/native-stack')
+jest.mock('@react-navigation/native-stack');
