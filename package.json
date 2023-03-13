@@ -51,22 +51,5 @@
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
-  },
-  "jest": {
-    "preset": "react-native",
-    "resetMocks": false,
-    "setupFiles": [
-      "<rootDir>/jest/setup.js",
-      "<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js"
-    ],
-    "transformIgnorePatterns": [
-      "/node_modules/(?!(@react-native|react-native)/).*/"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/node_modules/@testing-library/jest-native/extend-expect"
-    ],
-    "moduleNameMapper": {
-      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "babel-jest"
-    }
   }
 }
