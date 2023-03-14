@@ -6,7 +6,7 @@ interface Props {
   imageUrl: string;
 }
 
-export default function DummyImageView({imageUrl}: Props) {
+export function ImageView({imageUrl}: Props) {
   return (
     <Image
     source={imageUrl == '' ? require('../../assets/dummy.png') : { uri: imageUrl }}

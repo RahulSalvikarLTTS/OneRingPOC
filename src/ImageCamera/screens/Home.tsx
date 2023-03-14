@@ -1,9 +1,7 @@
-import { View, Text, Image, Button } from 'react-native';
-import React, { Children, Fragment, useEffect, useState } from 'react';
+import { View } from 'react-native';
+import React from 'react';
 import Styles from './Styles';
-import DummyImageView from './atom/DummyImageView';
-import FileNameText from './atom/FileNameText';
-import { DemoButton } from '../components';
+import {ImageView, FileNameText, Buttons} from './atom'
 import * as ImagePicker from 'react-native-image-picker';
 import { useSelector, useDispatch } from "react-redux";
 import { gallery, camera, fileManager } from "../redux/action";
@@ -57,31 +55,20 @@ export default function Home() {
 
     }
 
-    const renderFileUri = () => {
-          return <View style={Styles.imageContainer}>
-            <Image
-            source={filePath == '' ? require('../assets/dummy.png') : { uri: filePath }}
-            style={Styles.image}
-          />
-          </View>
-    
-      }
-    
     return (
         <View style={Styles.container}>
             <View style={Styles.imageTextContainer}>
-            {/* {renderFileUri()} */}
-                <DummyImageView imageUrl={filePath} /> 
+                <ImageView imageUrl={filePath} /> 
                 <FileNameText>{filePath}</FileNameText>
             </View>
             <View style={Styles.buttonContainer}>
                 {actions.map(({ title, type, options }) => {
                     return (
-                        <DemoButton
+                        <Buttons
                             key={title}
                             onPress={() => onButtonPress(type, options)}>
                             {title}
-                        </DemoButton>
+                        </Buttons>
                     );
                 })}
             </View>
