@@ -4,7 +4,7 @@
 
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
-import App from './src/App';
+//import App from './src/App';
 
 //import LoginDemo from './src/LoginDemo/App';
 
@@ -19,7 +19,7 @@ import App from './src/App';
 // import App from './src/ImageFileUploader/ENAPPD/App';
 // import AppFuncComponent from './src/ImageFileUploader/ENAPPD/AppFuncComponent';
 
-// import FileUpload from './src/ImageCamera/App';
+import FileUpload from './src/ImageCamera/App';
 // import fileUpload from './src/ImageCamera/FileUpload';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => FileUpload);
